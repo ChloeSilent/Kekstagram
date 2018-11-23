@@ -1,0 +1,19 @@
+{
+  "name": "kekstagram",
+  "version": "1.0.0",
+  "description": "test project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChloeSilent/Kekstagram.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChloeSilent/Kekstagram/issues"
+  },
+  "homepage": "https://github.com/ChloeSilent/Kekstagram#readme"
+}
