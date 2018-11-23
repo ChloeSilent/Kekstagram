@@ -1,0 +1,2 @@
+# Kekstagram
+Проект по JS
