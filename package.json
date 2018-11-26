@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ChloeSilent/Kekstagram/issues"
   },
-  "homepage": "https://github.com/ChloeSilent/Kekstagram#readme"
+  "homepage": "https://github.com/ChloeSilent/Kekstagram#readme",
+  "devDependencies": {
+    "eslint": "^5.9.0"
+  }
 }
