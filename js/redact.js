@@ -5,7 +5,7 @@
 (function () {
 
   window.redact = {};
- 
 
+console.log('hohoho!');
 
 })();
