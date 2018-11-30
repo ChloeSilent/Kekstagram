@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ChloeSilent/Kekstagram#readme",
   "devDependencies": {
-    "eslint": "^5.9.0"
+    "eslint": "^5.9.0",
+    "eslint-config-htmlacademy": "^0.5.2"
   }
 }
