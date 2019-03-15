@@ -4,11 +4,11 @@
 
 (function () {
 
-  window.redact = {};
+  window.photoUpload = {};
 
-var uploadFileElement = document.querySelector('#upload-file');
+var fileChooser = document.querySelector('#upload-file');
+var preview = document.querySelector('.setup-user-pic');
 
-uploadFileElement.addEventListener()
 
 
 })();

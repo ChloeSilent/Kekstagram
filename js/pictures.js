@@ -1,4 +1,5 @@
-;'use strict';
+;
+'use strict';
 
 
 
@@ -31,24 +32,31 @@
 
   /*__________________________________________________________________________функции  */
   var getRandomNumber = function (min, max) {
-    var rand = min - 0.5 + Math.random() * (max - min + 1);
-    rand = Math.round(rand);
+    var rand = Math.floor(Math.random() * ((max + 1) - min)) + min;
+    // console.log("rand is " + rand);
     return rand;
 
   };
+
+
   /* создает новую array из переданной и обрезает ее длину */
   var shuffleNewArray = function (a, min, max) {
-    var j, x, i;
-    for (i = a.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      x = a[i];
-      a[i] = a[j];
-      a[j] = x;
+    var array = a.slice();
+    var currentIndex = array.length;
+    var temporaryValue, randomIndex;
+
+    while (0 !== currentIndex) {
+
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
     }
 
-    var randomNumber = getRandomNumber(min, max);
 
-    return a.splice(0, randomNumber);
+    return array.splice(min, getRandomNumber(min, max));
   };
 
 
@@ -58,11 +66,15 @@
       "url": 'photos/' + i + '.jpg', //передать индекс элемента
       "likes": getRandomNumber(MIN_NUMBER, MAX_NUMBER), // передать сюда MIN_NUMBER и MAX_NUMBER
       "comments": shuffleNewArray(CommentsArray, MIN_AMOUNT_COMMENTS, MAX_AMOUNT_COMMENTS), // передать сюда CommentsArray, MIN_AMOUNT_COMMENTS, MAX_AMOUNT_COMMENTS
-      "description": descriptionArray[getRandomNumber(0, descriptionArray.length)] // передать descriptionArray
+      "description": descriptionArray[getRandomNumber(1, descriptionArray.length)] // передать descriptionArray
     };
+
+
     return newObject;
   };
-  /*-------------------------убрать в другой модуль---------------------------------- */
+
+
+  /* Отрисуйте сгенерированные DOM-элементы в блок .pictures. Для вставки элементов используйте DocumentFragment */
   var fragment = document.createDocumentFragment();
   var picturesBlockElement = document.querySelector('.pictures');
 
@@ -73,86 +85,135 @@
     var pictureElement = similarPictureTemplate.cloneNode(true);
 
     pictureElement.querySelector('img').src = element.url;
-    pictureElement.querySelector('.picture__stat--likes').textContent = element.likes;
-    pictureElement.querySelector('.picture__stat--comments').textContent = element.comments;
+    pictureElement.querySelector('.picture__stat--likes').textContent = element.likes.length;
+    pictureElement.querySelector('.picture__stat--comments').textContent = element.comments.length;
 
     fragment.appendChild(pictureElement);
+    console.log("element is " + element.url + " \n.Comments are " + element.comments + " ,its length is " + element.comments.length + " \n.Likes are " + element.likes.length);
   };
 
-  /*----------------вызов всех функций-------------------------- */
+  /* запуск функции отрисовки маленьких картинок, позднее эта йкнкция удалится за ненадобностью*/
   var elementsNumber = 25;
   var picturesArray = [];
 
 
   var createAllPictures = function () {
 
-    for (var i = 1; i <= elementsNumber; i++) {
-      var pict = createObject(i);
-      picturesArray.push(pict);
+    for (var i = 0; i <= elementsNumber; i++) {
+      picturesArray[i] = createObject(i);
+      console.log(picturesArray[i]);
     }
-    return picturesArray;
   };
 
 
   var pictures = createAllPictures();
 
-  var drawAllPictures = function () {
-
-    pictures.forEach(function (pict) {
-      drawObject(pict);
-    });
-    picturesBlockElement.appendChild(fragment);
-  };
-
-  drawAllPictures();
 
 
-  /*запихнуть позднее в другой модуль */
-  var bigPictureElement = document.querySelector('.big-picture');
-  var bigPictureImgElement = bigPictureElement.querySelector('img');
-  var bigPictureLikesElement = bigPictureElement.querySelector('.likes-count');
-  var bigPictureCommentsElement = bigPictureElement.querySelector('.comments-shown-count');
-  var socialCommentsElement = bigPictureElement.querySelector('.social__comments');
+  // // /*-------------------------отрисовка объктов---------------------------------- */
+  // var fragment = document.createDocumentFragment();
+  // var picturesBlockElement = document.querySelector('.pictures');
 
-  if (bigPictureElement.classList.contains("hidden")) {
-    bigPictureElement.classList.remove("hidden");
-  }
-  var removeChildrenNodes = function (list) {
-    while (list.firstChild) {
-      list.removeChild(list.firstChild);
-    }
-  };
+  // var similarPictureTemplate = document.querySelector('#picture').content;
 
-  console.log(pictures[0]);
+  // var drawObject = function (element) {
 
-  var putBigPict = function (element) {
-    bigPictureImgElement.src = element.url;
-    bigPictureLikesElement.textContent = element.likes;
-    bigPictureCommentsElement.textContent = element.comments.length;
+  //   var pictureElement = similarPictureTemplate.cloneNode(true);
 
-    removeChildrenNodes(socialCommentsElement);
+  //   pictureElement.querySelector('img').src = element.url;
+  //   pictureElement.querySelector('.picture__stat--likes').textContent = element.likes;
+  //   pictureElement.querySelector('.picture__stat--comments').textContent = element.comments;
 
-    var comments = element.comments;
+  //   fragment.appendChild(pictureElement);
+  // };
 
-    comments.forEach(function (comment) {
-      var li = document.createElement('li');
-      li.className = 'social__comment';
-      var img = document.createElement('img');
-      img.className = 'social__picture';
-      img.src = "img/avatar-" + getRandomNumber(1, 6) + ".svg";
-      img.alt = "Аватар комментатора фотографии";
-      img.width = "35";
-      img.height = "35";
-      li.appendChild(img);
-      var p = document.createElement('p');
-      p.className = 'social__text';
-      p.textContent = comment;
-      li.appendChild(p);
-      socialCommentsElement.appendChild(li);
-    });
+  // // /*----------------вызов всех функций-------------------------- */
+  // var elementsNumber = 25;
+  // var picturesArray = [];
 
-  };
 
-  putBigPict(pictures[0]);
+  // var createAllPictures = function () {
+
+  //   for (var i = 1; i <= elementsNumber; i++) {
+  //     var pict = createObject(i);
+  //     picturesArray.push(pict);
+  //   }
+  //   return picturesArray;
+  // };
+
+
+  // var pictures = createAllPictures();
+
+  // var drawAllPictures = function () {
+
+  //   pictures.forEach(function (pict) {
+  //     drawObject(pict);
+  //   });
+  //   picturesBlockElement.appendChild(fragment);
+  // };
+
+  // drawAllPictures();
+
+
+  // /*запихнуть позднее в другой модуль */
+  // var bigPictureElement = document.querySelector('.big-picture');
+  // var bigPictureImgElement = bigPictureElement.querySelector('img');
+  // var bigPictureLikesElement = bigPictureElement.querySelector('.likes-count');
+  // var bigPictureCommentsElement = bigPictureElement.querySelector('.comments-shown-count');
+  // var socialCommentsElement = bigPictureElement.querySelector('.social__comments');
+  // var closeBigPictureElement = bigPictureElement.querySelector('#picture-cancel');
+
+  // if (bigPictureElement.classList.contains("hidden")) {
+  //   bigPictureElement.classList.remove("hidden");
+  // }
+  // var removeChildrenNodes = function (list) {
+  //   while (list.firstChild) {
+  //     list.removeChild(list.firstChild);
+  //   }
+  // };
+
+  // // console.log(pictures[0]);
+
+  // var putBigPict = function (element) {
+  //   bigPictureImgElement.src = element.url;
+  //   bigPictureLikesElement.textContent = element.likes;
+  //   bigPictureCommentsElement.textContent = element.comments.length;
+
+
+  //   removeChildrenNodes(socialCommentsElement);
+
+  //   var comments = element.comments;
+
+  //   comments.forEach(function (comment) {
+  //     var li = document.createElement('li');
+  //     li.className = 'social__comment';
+
+  //     var img = document.createElement('img');
+  //     img.className = 'social__picture';
+  //     img.src = "img/avatar-" + getRandomNumber(1, 6) + ".svg";
+  //     img.alt = "Аватар комментатора фотографии";
+  //     img.width = "35";
+  //     img.height = "35";
+  //     li.appendChild(img);
+
+  //     var p = document.createElement('p');
+  //     p.className = 'social__text';
+  //     p.textContent = comment;
+  //     li.appendChild(p);
+
+  //     socialCommentsElement.appendChild(li);
+  //   });
+
+
+  //   var oncloseBigPictureElementClick = function() {
+  //     if (!bigPictureElement.classList.contains("hidden")) {
+  //       bigPictureElement.classList.add("hidden");
+  //     }
+  //     closeBigPictureElement.removeEventListener('click', oncloseBigPictureElementClick);
+  //   };
+  //   closeBigPictureElement.addEventListener('click', oncloseBigPictureElementClick);
+  // };
+
+  // putBigPict(pictures[0]);
 
 })();
