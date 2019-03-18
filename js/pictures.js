@@ -29,8 +29,12 @@
     'Вот это тачка!'
   ];
 
+  var elementsNumber = 25; // нужно для создания массива с объектами для картинок
+  var picturesArray = []; // пустой массив, куда будут создаваться объекты картинки
+  var srartOfArr = 0;
 
   /*__________________________________________________________________________функции  */
+  // созадает рандомное число в промежутки от мин до макс
   var getRandomNumber = function (min, max) {
     var rand = Math.floor(Math.random() * ((max + 1) - min)) + min;
     // console.log("rand is " + rand);
@@ -39,9 +43,27 @@
   };
 
 
-  /* создает новую array из переданной и обрезает ее длину */
-  var shuffleNewArray = function (a, min, max) {
-    var array = a.slice();
+  /* создает новую array из переданной и обрезает ее длину начиная с элемента с индексом min до индекса , равного рандомному числу от min до макс*/
+  // var shuffleNewArray = function (a, min, max) {
+  //   var array = a.slice();
+  //   var currentIndex = array.length;
+  //   var temporaryValue, randomIndex;
+
+  //   while (0 !== currentIndex) {
+
+  //     randomIndex = Math.floor(Math.random() * currentIndex);
+  //     currentIndex -= 1;
+
+  //     temporaryValue = array[currentIndex];
+  //     array[currentIndex] = array[randomIndex];
+  //     array[randomIndex] = temporaryValue;
+  //   }
+
+  //   return array.splice(min, getRandomNumber(min, max)); //
+  // };
+
+  var shuffleNewArray = function (array, min, max) {
+
     var currentIndex = array.length;
     var temporaryValue, randomIndex;
 
@@ -55,8 +77,7 @@
       array[randomIndex] = temporaryValue;
     }
 
-
-    return array.splice(min, getRandomNumber(min, max));
+    return array.slice(srartOfArr, getRandomNumber(min, max)); //
   };
 
 
@@ -92,67 +113,55 @@
     console.log("element is " + element.url + " \n.Comments are " + element.comments + " ,its length is " + element.comments.length + " \n.Likes are " + element.likes.length);
   };
 
-  /* запуск функции отрисовки маленьких картинок, позднее эта йкнкция удалится за ненадобностью*/
-  var elementsNumber = 25;
-  var picturesArray = [];
+  /*-------------------------отрисовка объктов---------------------------------- */
+  // var fragment = document.createDocumentFragment();
+  var picturesBlockElement = document.querySelector('.pictures');
 
+  var similarPictureTemplate = document.querySelector('#picture').content;
 
-  var createAllPictures = function () {
+  var drawObject = function (element) {
 
-    for (var i = 0; i <= elementsNumber; i++) {
-      picturesArray[i] = createObject(i);
-      console.log(picturesArray[i]);
-    }
+    var pictureElement = similarPictureTemplate.cloneNode(true);
+
+    pictureElement.querySelector('img').src = element.url;
+    pictureElement.querySelector('.picture__stat--likes').textContent = element.likes;
+    pictureElement.querySelector('.picture__stat--comments').textContent = element.comments.length;
+
+    fragment.appendChild(pictureElement);
+    return fragment;
   };
 
 
-  var pictures = createAllPictures();
+
+  /* запуск функции отрисовки маленьких картинок, позднее эта функция удалится за ненадобностью*/
 
 
 
-  // // /*-------------------------отрисовка объктов---------------------------------- */
-  // var fragment = document.createDocumentFragment();
-  // var picturesBlockElement = document.querySelector('.pictures');
+  var createAllPictures = function () { //
 
-  // var similarPictureTemplate = document.querySelector('#picture').content;
+    for (var i = 1; i <= elementsNumber; i++) {
+      picturesArray[i] = createObject(i);
 
-  // var drawObject = function (element) {
+      console.log(picturesArray[i]);
+    }
+    return picturesArray;
+  };
 
-  //   var pictureElement = similarPictureTemplate.cloneNode(true);
 
-  //   pictureElement.querySelector('img').src = element.url;
-  //   pictureElement.querySelector('.picture__stat--likes').textContent = element.likes;
-  //   pictureElement.querySelector('.picture__stat--comments').textContent = element.comments;
+  // функция принимает на вход массив объектов и отрисовывает каждый в DOM
+  var drawAllPictures = function (a) {
+    a.forEach(function (element) {
+      picturesBlockElement.appendChild(drawObject(element));
+    });
 
-  //   fragment.appendChild(pictureElement);
-  // };
+  };
+
+
 
   // // /*----------------вызов всех функций-------------------------- */
-  // var elementsNumber = 25;
-  // var picturesArray = [];
 
-
-  // var createAllPictures = function () {
-
-  //   for (var i = 1; i <= elementsNumber; i++) {
-  //     var pict = createObject(i);
-  //     picturesArray.push(pict);
-  //   }
-  //   return picturesArray;
-  // };
-
-
-  // var pictures = createAllPictures();
-
-  // var drawAllPictures = function () {
-
-  //   pictures.forEach(function (pict) {
-  //     drawObject(pict);
-  //   });
-  //   picturesBlockElement.appendChild(fragment);
-  // };
-
-  // drawAllPictures();
+  var pictures = createAllPictures();
+  drawAllPictures(pictures);
 
 
   // /*запихнуть позднее в другой модуль */
