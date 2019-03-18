@@ -8,7 +8,12 @@
 
 var uploadFileElement = document.querySelector('#upload-file');
 
-uploadFileElement.addEventListener()
+var preview = document.querySelector('.img-upload__overlay');
 
+var showRedactor = function() {
+  preview.classList.remove("hidden");
+}
+
+uploadFileElement.addEventListener("change", showRedactor);
 
 })();
