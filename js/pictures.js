@@ -161,7 +161,7 @@
     }
   };
 
-  console.log(pictures);
+  // console.log(pictures);
 
 /*функция отрисовки большой картинки, получает на вход объект и отрисоывает его в DOM */
   var putBigPict = function (element) {
