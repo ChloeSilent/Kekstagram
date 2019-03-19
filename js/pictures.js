@@ -204,8 +204,8 @@
     closeBigPictureElement.addEventListener('click', oncloseBigPictureElementClick);
   };
 
-  putBigPict(pictures[0]);
-
+  //putBigPict(pictures[0]);
+  bigPictureElement.classList.add("hidden");
 
   /*остановилась на разделе "обработка событий"  #16 Личный проект: подробности
    */
