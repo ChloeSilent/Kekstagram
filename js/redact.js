@@ -1,4 +1,3 @@
-;
 'use strict';
 // form.js — модуль, который ведет  работу с фотографиями, размещенными другими участниками
 
@@ -9,12 +8,12 @@
 
   var uploadFileElement = document.querySelector('#upload-file');
 
-  var preview = document.querySelector('.img-upload__overlay');
+  window.redact.preview = document.querySelector('.img-upload__overlay');
   var closeRedactorButtonElement = document.querySelector('#upload-cancel');
   var minusResizeButton = document.querySelector('.resize__control--minus');
   var plusResizeButton = document.querySelector('.resize__control--plus');
   var resizeControlElement = document.querySelector('.resize__control--value');
-  var ImfUploadPreviewElement = document.querySelector('.img-upload__preview');
+  window.redact.ImgUploadPreviewElement = document.querySelector('.img-upload__preview');
   var scaleLine = document.querySelector('.scale__line');
   var scalePin = document.querySelector('.scale__pin');
   var scaleLevelElement = document.querySelector('.scale__level');
@@ -22,12 +21,12 @@
 
 
   var showRedactor = function () {
-    preview.classList.remove("hidden");
+    window.redact.preview.classList.remove("hidden");
 
   };
 
   var hideRedactor = function () {
-    preview.classList.add("hidden");
+    window.redact.preview.classList.add("hidden");
   };
 
   /*функция ресайзинга изображения */
@@ -40,7 +39,7 @@
     if (num > 0 && num <= 100) { // по ТЗ value может быть только от 0 до  100, поэтому мы будем его менять только в этом диапазоне
       var scaleNumber = num / 100; // заносим в переменную дробное число равное num / 100, тк scale  у нас может быть ТОЛЬКО меньше 1
       resizeControlElement.value = num + "%"; // меняем value инпута и добавляем туда %, тк там число со знаком %
-      ImfUploadPreviewElement.style.transform = 'scale(' + scaleNumber + ')'; // меняем размер картинки через свойство transform: scale
+      window.redact.ImgUploadPreviewElement.style.transform = 'scale(' + scaleNumber + ')'; // меняем размер картинки через свойство transform: scale
     }
 
   };

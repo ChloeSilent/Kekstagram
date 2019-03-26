@@ -66,7 +66,7 @@
   /* создает новый объект */
   var createObject = function (i) {
     var newObject = {
-      "url": 'photos/' +(i + 1)+ '.jpg', //передать индекс элемента
+      "url": 'photos/' + (i + 1) + '.jpg', //передать индекс элемента
       "likes": getRandomNumber(MIN_NUMBER, MAX_NUMBER), // передать сюда MIN_NUMBER и MAX_NUMBER
       "comments": shuffleNewArray(CommentsArray, MIN_AMOUNT_COMMENTS, MAX_AMOUNT_COMMENTS), // передать сюда CommentsArray, MIN_AMOUNT_COMMENTS, MAX_AMOUNT_COMMENTS
       "description": descriptionArray[getRandomNumber(1, descriptionArray.length)] // передать descriptionArray
@@ -120,7 +120,6 @@
 
     for (var i = 0; i < elementsNumber; i++) {
       picturesArray[i] = createObject(i);
-
       // console.log(picturesArray[i]);
     }
     return picturesArray;
@@ -163,7 +162,7 @@
 
   // console.log(pictures);
 
-/*функция отрисовки большой картинки, получает на вход объект и отрисоывает его в DOM */
+  /*функция отрисовки большой картинки, получает на вход объект и отрисоывает его в DOM */
   var putBigPict = function (element) {
     bigPictureImgElement.src = element.url;
     bigPictureLikesElement.textContent = element.likes;
@@ -195,7 +194,7 @@
     });
 
 
-    var oncloseBigPictureElementClick = function() {
+    var oncloseBigPictureElementClick = function () {
       if (!bigPictureElement.classList.contains("hidden")) {
         bigPictureElement.classList.add("hidden");
       }
@@ -209,4 +208,6 @@
 
   /*остановилась на разделе "обработка событий"  #16 Личный проект: подробности
    */
+
+
 })();
