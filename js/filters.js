@@ -18,6 +18,7 @@
 
   var filterArray = document.querySelectorAll(".effects__preview");
 
+
   var removeStylesOfImg = function () {
     window.redact.ImgUploadPreviewElement.className = ".img-upload__preview";
   };
@@ -35,8 +36,35 @@
     return this;
   };
 
+  var blurAndBrightnessFilters = function (num) {
+    var converted = 2;
+    if (num >= 33) {
+      if (num >= 66) {
+        converted = 3;
+      }
+    } else {
+      converted = 1;
+    }
+
+    return converted;
+  };
+
+  window.filters.manageFilter = function (val,chosenFilter) {
+    window.redact.setRedactorNew();
+
+    var filtersStyle = {
+      "effects__preview--none": window.redact.slider.style.display = "none",
+      "effects__preview--chrome": window.redact.ImgUploadPreviewElement.style.filter = "grayscale(" + (val / 100) + ")",
+      "effects__preview--sepia": window.redact.ImgUploadPreviewElement.style.filter = "sepia(" + (val / 100) + ")",
+      "effects__preview--marvin": window.redact.ImgUploadPreviewElement.style.filter = "invert(" + val + ")",
+      "effects__preview--phobos": window.redact.ImgUploadPreviewElement.style.filter = "blur(" + blurAndBrightnessFilters(val) + "px)",
+      "effects__preview--heat": window.redact.ImgUploadPreviewElement.style.filter = "brightness(" + blurAndBrightnessFilters(val) + ")"
+    };
+    filtersStyle[chosenFilter];
+  };
+
   var applyFilter = function (event) { // функция применения фильтра к картинке
-    var button = event.target;
+    // var button = event.target;
     removeStylesOfImg(); // обнуляем все стили картинки, кроме основного
     var a = [];
     event.target.classList.forEach( // копируем массив классов баттона, на котором был клик
@@ -47,6 +75,7 @@
 
     a.remove("effects__preview"); // удаляем из массива указанный класс, тк он не нужен картинке
     window.redact.ImgUploadPreviewElement.classList.add(a[0]); // добавляем к классам картинки оставшиеся классы из списка выше
+
   };
 
 
@@ -56,4 +85,6 @@
     }
   );
 
+// ПЕРЕСТАВИТЬ В ДРУГОЕ МЕСТО, ПОКА ХЗ КУДА
+  //window.filters.manageFilter(parseInt(window.redact.scaleLevelElement.style.width),a[0]);
 })();

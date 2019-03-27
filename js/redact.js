@@ -5,7 +5,6 @@
 (function () {
 
   window.redact = {};
-
   var uploadFileElement = document.querySelector('#upload-file');
 
   window.redact.preview = document.querySelector('.img-upload__overlay');
@@ -16,8 +15,8 @@
   window.redact.ImgUploadPreviewElement = document.querySelector('.img-upload__preview');
   var scaleLine = document.querySelector('.scale__line');
   var scalePin = document.querySelector('.scale__pin');
-  var scaleLevelElement = document.querySelector('.scale__level');
-
+  window.redact.scaleLevelElement = document.querySelector('.scale__level');
+  window.redact.slider = document.querySelector(".img-upload__scale");
 
 
   var showRedactor = function () {
@@ -71,7 +70,8 @@
 
       if (moveEvent.clientX >= sliderCoords.min && moveEvent.clientX <= sliderCoords.max) {
         scalePin.style.left = (scalePin.offsetLeft - shift.x) + 'px';
-        scaleLevelElement.style.width = (scalePin.offsetLeft/ scaleLine.offsetWidth) * 100 + "%";
+        window.redact.scaleLevelElement.style.width = Math.ceil((scalePin.offsetLeft / scaleLine.offsetWidth) * 100) + "%";
+
       }
 
     };
@@ -97,11 +97,12 @@
 
 
   /* устанавливает дефолтовые значения для редактора*/
-  var setRedactorNew = function () {
+  window.redact.setRedactorNew = function () {
     resizeControlElement.value = "100%";
+    window.redact.slider.style.display = "block";
   };
 
-  setRedactorNew();
+  window.redact.setRedactorNew();
 
 
   plusResizeButton.addEventListener("click", scaleControll);
