@@ -34,11 +34,6 @@
     return converted;
   };
 
-
-  window.redact.setNewFilter = function () {
-    window.filters.manageFilter(window.redact.ImgUploadPreviewElement.classList[1],100);
-  };
-
   window.filters.manageFilter = function (val, chosenFilter) { // применяет выбранный фильтр и устанавливает ему величину
 
     if (chosenFilter === "effects__preview--none") {
@@ -56,7 +51,7 @@
     if (chosenFilter === "effects__preview--phobos") {
       window.redact.ImgUploadPreviewElement.style.filter = "blur(" + blurAndBrightnessFilters(val) + "px)";
     }
-    if (chosenFilter === "effects__preview--none") {
+    if (chosenFilter === "effects__preview--heat") {
       window.redact.ImgUploadPreviewElement.style.filter = "brightness(" + blurAndBrightnessFilters(val) + ")";
     }
 
@@ -87,6 +82,16 @@
     window.redact.ImgUploadPreviewElement.classList.contains("effects__preview--none") ? window.redact.slider.style.display = "none" : window.redact.slider.style.display = "block";// убрать слайдер при отсутсвии фильтра
   };
 
+  window.redact.setNewFilter = function (event) {
+
+    var selectedFilter = event.target.classList[1];
+    var val = 100;
+    window.filters.manageFilter(val,selectedFilter);
+    // console.log("selected filter is " + window.redact.ImgUploadPreviewElement.classList);
+    //console.log("selected filter is " + document.querySelector('.img-upload__preview').classList[1]);
+    console.log(event.target.classList[1]);
+  };
+
 
   var applyFilter = function (event) { // функция применения фильтра к картинке
     //console.log("state 1: " + window.redact.ImgUploadPreviewElement.classList);
@@ -99,7 +104,7 @@
 
     a.remove("effects__preview"); // удаляем из массива указанный класс, тк он не нужен картинке
     window.redact.ImgUploadPreviewElement.classList.add(a[0]); // добавляем к классам картинки оставшиеся классы из списка выше
-    //console.log("state 2: " + window.redact.ImgUploadPreviewElement.classList);
+
 
   };
 
@@ -109,9 +114,9 @@
       button.addEventListener("click", removePreviousFilter);
       button.addEventListener("click", window.redact.setRedactorNew);
       button.addEventListener("click", checkFilterforSlider);
-      // button.addEventListener("click", window.redact.setNewFilter);
-      button.addEventListener("click", applyFilter);
 
+      button.addEventListener("click", applyFilter);
+      button.addEventListener("click", window.redact.setNewFilter);
     }
   );
 
