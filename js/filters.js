@@ -6,22 +6,7 @@
 
   window.filters = {};
 
-  /*наверно тоже другой модуль */
-  var filterToClass = {
-    "effects__preview--none": "",
-    "effects__preview--chrome": "effects__preview--chrome",
-    "effects__preview--sepia": "effects__preview--sepia",
-    "effects__preview--marvin": "effects__preview--marvin",
-    "effects__preview--phobos": "effects__preview--phobos",
-    "effects__preview--heat": "effects__preview--heat"
-  };
-
   var filterArray = document.querySelectorAll(".effects__preview");
-
-
-  var removeStylesOfImg = function () {
-    window.redact.ImgUploadPreviewElement.className = ".img-upload__preview";
-  };
 
   Array.prototype.remove = function () { // функция удаляет из массива элемент по его значению
     var what, a = arguments,
@@ -49,25 +34,64 @@
     return converted;
   };
 
-  window.filters.manageFilter = function (val,chosenFilter) {
-    window.redact.setRedactorNew();
 
-    var filtersStyle = {
-      "effects__preview--none": window.redact.slider.style.display = "none",
-      "effects__preview--chrome": window.redact.ImgUploadPreviewElement.style.filter = "grayscale(" + (val / 100) + ")",
-      "effects__preview--sepia": window.redact.ImgUploadPreviewElement.style.filter = "sepia(" + (val / 100) + ")",
-      "effects__preview--marvin": window.redact.ImgUploadPreviewElement.style.filter = "invert(" + val + ")",
-      "effects__preview--phobos": window.redact.ImgUploadPreviewElement.style.filter = "blur(" + blurAndBrightnessFilters(val) + "px)",
-      "effects__preview--heat": window.redact.ImgUploadPreviewElement.style.filter = "brightness(" + blurAndBrightnessFilters(val) + ")"
-    };
-    filtersStyle[chosenFilter];
+  window.redact.setNewFilter = function () {
+    window.filters.manageFilter(window.redact.ImgUploadPreviewElement.classList[1],100);
   };
 
+  window.filters.manageFilter = function (val, chosenFilter) { // применяет выбранный фильтр и устанавливает ему величину
+
+    if (chosenFilter === "effects__preview--none") {
+      window.redact.ImgUploadPreviewElement.style.filter = "none";
+    }
+    if (chosenFilter === "effects__preview--chrome") {
+      window.redact.ImgUploadPreviewElement.style.filter = "grayscale(" + (val / 100) + ")";
+    }
+    if (chosenFilter === "effects__preview--sepia") {
+      window.redact.ImgUploadPreviewElement.style.filter = "sepia(" + (val / 100) + ")";
+    }
+    if (chosenFilter === "effects__preview--marvin") {
+      window.redact.ImgUploadPreviewElement.style.filter = "invert(" + val + ")";
+    }
+    if (chosenFilter === "effects__preview--phobos") {
+      window.redact.ImgUploadPreviewElement.style.filter = "blur(" + blurAndBrightnessFilters(val) + "px)";
+    }
+    if (chosenFilter === "effects__preview--none") {
+      window.redact.ImgUploadPreviewElement.style.filter = "brightness(" + blurAndBrightnessFilters(val) + ")";
+    }
+
+    // switch (chosenFilter) {
+    //   case "effects__preview--none":
+    //     window.redact.ImgUploadPreviewElement.style.filter = "none";
+    //   case "effects__preview--chrome":
+    //     window.redact.ImgUploadPreviewElement.style.filter = "grayscale(" + (val / 100) + ")";
+    //   case "effects__preview--sepia":
+    //     window.redact.ImgUploadPreviewElement.style.filter = "sepia(" + (val / 100) + ")";
+    //   case "effects__preview--marvin":
+    //     window.redact.ImgUploadPreviewElement.style.filter = "invert(" + val + ")";
+    //   case "effects__preview--phobos":
+    //     window.redact.ImgUploadPreviewElement.style.filter = "blur(" + blurAndBrightnessFilters(val) + "px)";
+    //   case "effects__preview--heat":
+    //     window.redact.ImgUploadPreviewElement.style.filter = "brightness(" + blurAndBrightnessFilters(val) + ")";
+    //   default:
+    //     console.log("no match");
+    // }
+
+  };
+
+  var removePreviousFilter = function () {
+    window.redact.ImgUploadPreviewElement.className = "img-upload__preview"; // обнуляем все стили картинки, кроме основного
+  };
+
+  var checkFilterforSlider = function () { // убирает слайдер, если нет фильтра
+    window.redact.ImgUploadPreviewElement.classList.contains("effects__preview--none") ? window.redact.slider.style.display = "none" : window.redact.slider.style.display = "block";// убрать слайдер при отсутсвии фильтра
+  };
+
+
   var applyFilter = function (event) { // функция применения фильтра к картинке
-    // var button = event.target;
-    removeStylesOfImg(); // обнуляем все стили картинки, кроме основного
+    //console.log("state 1: " + window.redact.ImgUploadPreviewElement.classList);
     var a = [];
-    event.target.classList.forEach( // копируем массив классов баттона, на котором был клик
+    event.target.classList.forEach( // копируем массив классов баттона, на котором был клик, тк у него 2 класса, а нам нужен второй
       function (style, index) {
         a[index] = style;
       }
@@ -75,16 +99,20 @@
 
     a.remove("effects__preview"); // удаляем из массива указанный класс, тк он не нужен картинке
     window.redact.ImgUploadPreviewElement.classList.add(a[0]); // добавляем к классам картинки оставшиеся классы из списка выше
+    //console.log("state 2: " + window.redact.ImgUploadPreviewElement.classList);
 
   };
 
 
   filterArray.forEach(
     function (button) {
+      button.addEventListener("click", removePreviousFilter);
+      button.addEventListener("click", window.redact.setRedactorNew);
+      button.addEventListener("click", checkFilterforSlider);
+      // button.addEventListener("click", window.redact.setNewFilter);
       button.addEventListener("click", applyFilter);
+
     }
   );
 
-// ПЕРЕСТАВИТЬ В ДРУГОЕ МЕСТО, ПОКА ХЗ КУДА
-  //window.filters.manageFilter(parseInt(window.redact.scaleLevelElement.style.width),a[0]);
 })();
