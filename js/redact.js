@@ -69,17 +69,16 @@
       };
 
       if (moveEvent.clientX >= sliderCoords.min && moveEvent.clientX <= sliderCoords.max) {
+
         scalePin.style.left = (scalePin.offsetLeft - shift.x) + 'px';
         window.redact.scaleLevelElement.style.width = Math.ceil((scalePin.offsetLeft / scaleLine.offsetWidth) * 100) + "%";
-        //var filterValue = parseInt(window.redact.scaleLevelElement.offsetWidth);
-        var filterValue = parseInt(window.redact.scaleLevelElement.style.width);
 
+
+        var filterValue = parseInt(window.redact.scaleLevelElement.style.width);
         var filterName = window.redact.ImgUploadPreviewElement.classList[1];
 
-        // console.log("filterValue: " + filterValue + " filterName: " + filterName);
         window.filters.manageFilter(filterValue, filterName);
-        // console.log(parseInt(window.redact.scaleLevelElement.offsetWidth));
-        // console.log(window.redact.ImgUploadPreviewElement.classList[1]);
+
       }
 
     };

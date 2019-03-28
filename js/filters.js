@@ -7,6 +7,8 @@
   window.filters = {};
 
   var filterArray = document.querySelectorAll(".effects__preview");
+  const RESET_FILTER_VALUE = 110;
+
 
   Array.prototype.remove = function () { // функция удаляет из массива элемент по его значению
     var what, a = arguments,
@@ -21,7 +23,7 @@
     return this;
   };
 
-  var blurAndBrightnessFilters = function (num) {
+  var blurAndBrightnessFilters = function (num) { // функция перевода чисел до 100 в 1б2 или 3
     var converted = 2;
     if (num >= 33) {
       if (num >= 66) {
@@ -74,27 +76,26 @@
 
   };
 
-  var removePreviousFilter = function () {
-    window.redact.ImgUploadPreviewElement.className = "img-upload__preview"; // обнуляем все стили картинки, кроме основного
+  var removeAllFilterClasses = function () { // удаляет все классы картинки кроме ее основного
+    window.redact.ImgUploadPreviewElement.className = "img-upload__preview";
   };
 
   var checkFilterforSlider = function () { // убирает слайдер, если нет фильтра
-    window.redact.ImgUploadPreviewElement.classList.contains("effects__preview--none") ? window.redact.slider.style.display = "none" : window.redact.slider.style.display = "block";// убрать слайдер при отсутсвии фильтра
+    window.redact.ImgUploadPreviewElement.classList.contains("effects__preview--none") ? window.redact.slider.style.display = "none" : window.redact.slider.style.display = "block"; // убрать слайдер при отсутсвии фильтра
   };
 
-  window.redact.setNewFilter = function (event) {
+
+  window.redact.setNewFilterForImg = function (event) { // убирает старый фильтр на картике и ставит новый
 
     var selectedFilter = event.target.classList[1];
-    var val = 100;
-    window.filters.manageFilter(val,selectedFilter);
-    // console.log("selected filter is " + window.redact.ImgUploadPreviewElement.classList);
-    //console.log("selected filter is " + document.querySelector('.img-upload__preview').classList[1]);
-    console.log(event.target.classList[1]);
+
+    window.filters.manageFilter(RESET_FILTER_VALUE, selectedFilter);
+
   };
 
 
-  var applyFilter = function (event) { // функция применения фильтра к картинке
-    //console.log("state 1: " + window.redact.ImgUploadPreviewElement.classList);
+  var setNewFilterClass = function (event) { // функция применения класса-фильтра к картинке
+
     var a = [];
     event.target.classList.forEach( // копируем массив классов баттона, на котором был клик, тк у него 2 класса, а нам нужен второй
       function (style, index) {
@@ -105,18 +106,17 @@
     a.remove("effects__preview"); // удаляем из массива указанный класс, тк он не нужен картинке
     window.redact.ImgUploadPreviewElement.classList.add(a[0]); // добавляем к классам картинки оставшиеся классы из списка выше
 
-
   };
 
 
   filterArray.forEach(
     function (button) {
-      button.addEventListener("click", removePreviousFilter);
+      button.addEventListener("click", removeAllFilterClasses);
       button.addEventListener("click", window.redact.setRedactorNew);
       button.addEventListener("click", checkFilterforSlider);
 
-      button.addEventListener("click", applyFilter);
-      button.addEventListener("click", window.redact.setNewFilter);
+      button.addEventListener("click", setNewFilterClass);
+      button.addEventListener("click", window.redact.setNewFilterForImg);
     }
   );
 
