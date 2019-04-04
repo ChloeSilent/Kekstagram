@@ -136,7 +136,7 @@
 
 
 
-  // // /*----------------вызов всех функций-------------------------- */
+  /*----------------вызов всех функций-------------------------- */
 
   var pictures = createAllPictures(); // создали массив объектов
   drawAllPictures(pictures); // отрисовали элементы в DOM приняв на вход массив объектов
@@ -194,7 +194,7 @@
     });
 
 
-    var oncloseBigPictureElementClick = function () {
+    var oncloseBigPictureElementClick = function () { // закрытие картинки по клику на крестик
       if (!bigPictureElement.classList.contains("hidden")) {
         bigPictureElement.classList.add("hidden");
       }
@@ -203,10 +203,9 @@
     closeBigPictureElement.addEventListener('click', oncloseBigPictureElementClick);
   };
 
-  //putBigPict(pictures[0]);
   bigPictureElement.classList.add("hidden");
 
-  /*остановилась на разделе "обработка событий"  #16 Личный проект: подробности
+  /*остановилась на разделе "обработка событий"   #17 Личный проект: доверяй, но проверяй 2.4. Комментарий
    */
 
 

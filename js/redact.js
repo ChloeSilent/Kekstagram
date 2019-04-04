@@ -5,6 +5,8 @@
 (function () {
 
   window.redact = {};
+
+  const DIFF = 1;//МИНУС ДЛЯ выравнивания ширины полосы, тк пин имеет ширину, длина желтой полосы длинее родителя
   var uploadFileElement = document.querySelector('#upload-file');
 
   window.redact.preview = document.querySelector('.img-upload__overlay');
@@ -51,11 +53,12 @@
       x: event.clientX
     };
 
-    var xy = scaleLine.getBoundingClientRect();
+    var x = scaleLine.getBoundingClientRect(); //крайние точки слева(мин) и справа(макс) затемненоой полосы за под пином
     var sliderCoords = {
-      min: xy.left,
-      max: xy.right
+      min: x.left,
+      max: (x.right - DIFF)
     };
+
 
     var onMouseMoove = function (moveEvent) {
       moveEvent.preventDefault();
@@ -78,7 +81,10 @@
         var filterName = window.redact.ImgUploadPreviewElement.classList[1];
 
         window.filters.manageFilter(filterValue, filterName);
-
+        // console.log("scaleLine.offsetWidth: " + scaleLine.offsetWidth + " scalePin.offsetLeft: " + scalePin.offsetLeft);
+        // console.log("window.redact.scaleLevelElement.style.width: " + window.redact.scaleLevelElement.style.width);
+        // console.log("scalePin.style.left: " + scalePin.style.left);
+        // console.log("scalePin.offsetLeft: " + scalePin.offsetLeft);
       }
 
     };

@@ -7,7 +7,7 @@
   window.filters = {};
 
   var filterArray = document.querySelectorAll(".effects__preview");
-  const RESET_FILTER_VALUE = 110;
+  const RESET_FILTER_VALUE = 100;
 
 
   Array.prototype.remove = function () { // функция удаляет из массива элемент по его значению
@@ -38,41 +38,48 @@
 
   window.filters.manageFilter = function (val, chosenFilter) { // применяет выбранный фильтр и устанавливает ему величину
 
-    if (chosenFilter === "effects__preview--none") {
-      window.redact.ImgUploadPreviewElement.style.filter = "none";
-    }
-    if (chosenFilter === "effects__preview--chrome") {
-      window.redact.ImgUploadPreviewElement.style.filter = "grayscale(" + (val / 100) + ")";
-    }
-    if (chosenFilter === "effects__preview--sepia") {
-      window.redact.ImgUploadPreviewElement.style.filter = "sepia(" + (val / 100) + ")";
-    }
-    if (chosenFilter === "effects__preview--marvin") {
-      window.redact.ImgUploadPreviewElement.style.filter = "invert(" + val + ")";
-    }
-    if (chosenFilter === "effects__preview--phobos") {
-      window.redact.ImgUploadPreviewElement.style.filter = "blur(" + blurAndBrightnessFilters(val) + "px)";
-    }
-    if (chosenFilter === "effects__preview--heat") {
-      window.redact.ImgUploadPreviewElement.style.filter = "brightness(" + blurAndBrightnessFilters(val) + ")";
-    }
-
-    // switch (chosenFilter) {
-    //   case "effects__preview--none":
-    //     window.redact.ImgUploadPreviewElement.style.filter = "none";
-    //   case "effects__preview--chrome":
-    //     window.redact.ImgUploadPreviewElement.style.filter = "grayscale(" + (val / 100) + ")";
-    //   case "effects__preview--sepia":
-    //     window.redact.ImgUploadPreviewElement.style.filter = "sepia(" + (val / 100) + ")";
-    //   case "effects__preview--marvin":
-    //     window.redact.ImgUploadPreviewElement.style.filter = "invert(" + val + ")";
-    //   case "effects__preview--phobos":
-    //     window.redact.ImgUploadPreviewElement.style.filter = "blur(" + blurAndBrightnessFilters(val) + "px)";
-    //   case "effects__preview--heat":
-    //     window.redact.ImgUploadPreviewElement.style.filter = "brightness(" + blurAndBrightnessFilters(val) + ")";
-    //   default:
-    //     console.log("no match");
+    // if (chosenFilter === "effects__preview--none") {
+    //   window.redact.ImgUploadPreviewElement.style.filter = "none";
     // }
+    // if (chosenFilter === "effects__preview--chrome") {
+    //   window.redact.ImgUploadPreviewElement.style.filter = "grayscale(" + (val / 100) + ")";
+    // }
+    // if (chosenFilter === "effects__preview--sepia") {
+    //   window.redact.ImgUploadPreviewElement.style.filter = "sepia(" + (val / 100) + ")";
+    // }
+    // if (chosenFilter === "effects__preview--marvin") {
+    //   window.redact.ImgUploadPreviewElement.style.filter = "invert(" + val + "%)";
+    // }
+    // if (chosenFilter === "effects__preview--phobos") {
+    //   window.redact.ImgUploadPreviewElement.style.filter = "blur(" + blurAndBrightnessFilters(val) + "px)";
+    // }
+    // if (chosenFilter === "effects__preview--heat") {
+    //   window.redact.ImgUploadPreviewElement.style.filter = "brightness(" + blurAndBrightnessFilters(val) + ")";
+    // }
+    console.log("val: " + val);
+    switch (chosenFilter) {
+      case "effects__preview--none":
+        window.redact.ImgUploadPreviewElement.style.filter = "none";
+        break;
+      case "effects__preview--chrome":
+        window.redact.ImgUploadPreviewElement.style.filter = "grayscale(" + (val / 100) + ")";
+        break;
+      case "effects__preview--sepia":
+        window.redact.ImgUploadPreviewElement.style.filter = "sepia(" + (val / 100) + ")";
+        break;
+      case "effects__preview--marvin":
+        window.redact.ImgUploadPreviewElement.style.filter = "invert(" + val + "%)";
+        break;
+      case "effects__preview--phobos":
+        window.redact.ImgUploadPreviewElement.style.filter = "blur(" + blurAndBrightnessFilters(val) + "px)";
+        break;
+      case "effects__preview--heat":
+        window.redact.ImgUploadPreviewElement.style.filter = "brightness(" + blurAndBrightnessFilters(val) + ")";
+        break;
+      default:
+        // console.log("no match");
+        break;
+    }
 
   };
 
